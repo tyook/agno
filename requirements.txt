@@ -1,0 +1,2 @@
+agno==1.7.6
+python-dotenv>=1.0.0

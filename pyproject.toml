@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agno-demo"
+version = "0.1.0"
+description = "A demonstration of multi-agent systems using agno framework"
+authors = [{name = "Demo Author", email = "demo@example.com"}]
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "agno==1.7.6",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+]
