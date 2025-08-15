@@ -14,7 +14,7 @@ def test_research_tools():
     print("🔍 Testing Research Tools...")
     
     try:
-        from demo.tools.research_tools import web_search_tool, trend_analysis_tool, fact_check_tool
+        from demo.content_creation.tools.research_tools import web_search_tool, trend_analysis_tool, fact_check_tool
         
         # Test web search tool
         search_result = web_search_tool.entrypoint(query="AI in healthcare", num_results=3)
@@ -46,7 +46,7 @@ def test_content_tools():
     print("\\n📝 Testing Content Tools...")
     
     try:
-        from demo.tools.content_tools import content_planner_tool, writing_quality_tool, seo_optimizer_tool
+        from demo.content_creation.tools.content_tools import content_planner_tool, writing_quality_tool, seo_optimizer_tool
         
         # Test content planner tool
         plan_result = content_planner_tool.entrypoint(topic="blockchain", content_type="blog_post", target_audience="developers")
@@ -78,7 +78,7 @@ def test_project_tools():
     print("\\n🎯 Testing Project Tools...")
     
     try:
-        from demo.tools.project_tools import task_manager_tool, progress_tracker_tool, communication_tool
+        from demo.content_creation.tools.project_tools import task_manager_tool, progress_tracker_tool, communication_tool
         
         # Test task manager tool
         task_result = task_manager_tool.entrypoint(action="create", task_details={"title": "Test Task", "assignee": "test_agent"})
@@ -111,11 +111,11 @@ def test_agent_initialization():
     
     try:
         # Test that we can import and initialize agents
-        from demo.agents.research_agent import ResearchAgent
-        from demo.agents.strategist_agent import ContentStrategistAgent
-        from demo.agents.writer_agent import WriterAgent
-        from demo.agents.editor_agent import EditorAgent
-        from demo.agents.project_manager_agent import ProjectManagerAgent
+        from demo.content_creation.agents.research_agent import ResearchAgent
+        from demo.content_creation.agents.strategist_agent import ContentStrategistAgent
+        from demo.content_creation.agents.writer_agent import WriterAgent
+        from demo.content_creation.agents.editor_agent import EditorAgent
+        from demo.content_creation.agents.project_manager_agent import ProjectManagerAgent
         
         # Initialize each agent (this will test tool integration)
         research_agent = ResearchAgent()

@@ -1,0 +1,1 @@
+"""Simple structured output demo module."""

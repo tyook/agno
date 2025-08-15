@@ -76,21 +76,21 @@ def test_demo_imports():
         sys.path.append(os.path.dirname(os.path.abspath(__file__)))
         
         print("  Importing demo tools...")
-        from demo.tools.research_tools import web_search_tool, trend_analysis_tool, fact_check_tool
-        from demo.tools.content_tools import content_planner_tool, writing_quality_tool, seo_optimizer_tool
-        from demo.tools.project_tools import task_manager_tool, progress_tracker_tool, communication_tool
+        from demo.content_creation.tools.research_tools import web_search_tool, trend_analysis_tool, fact_check_tool
+        from demo.content_creation.tools.content_tools import content_planner_tool, writing_quality_tool, seo_optimizer_tool
+        from demo.content_creation.tools.project_tools import task_manager_tool, progress_tracker_tool, communication_tool
         print("  ✅ Demo tools imported successfully")
         
         print("  Importing demo agents...")
-        from demo.agents.research_agent import ResearchAgent
-        from demo.agents.strategist_agent import ContentStrategistAgent
-        from demo.agents.writer_agent import WriterAgent
-        from demo.agents.editor_agent import EditorAgent
-        from demo.agents.project_manager_agent import ProjectManagerAgent
+        from demo.content_creation.agents.research_agent import ResearchAgent
+        from demo.content_creation.agents.strategist_agent import ContentStrategistAgent
+        from demo.content_creation.agents.writer_agent import WriterAgent
+        from demo.content_creation.agents.editor_agent import EditorAgent
+        from demo.content_creation.agents.project_manager_agent import ProjectManagerAgent
         print("  ✅ Demo agents imported successfully")
         
         print("  Importing demo workflows...")
-        from demo.workflows.content_creation_workflow import ContentCreationWorkflow
+        from demo.content_creation.workflows.content_creation_workflow import ContentCreationWorkflow
         print("  ✅ Demo workflows imported successfully")
         
         print("\\n🎉 All demo module imports passed!")
