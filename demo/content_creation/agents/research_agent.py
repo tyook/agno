@@ -3,13 +3,13 @@
 from agno.agent import Agent
 from agno.models.anthropic import Claude
 from demo.content_creation.tools.research_tools import web_search_tool, trend_analysis_tool, fact_check_tool
-from demo.content_creation.models.ai_model import sonnet_4
+from demo.models.ai_model import sonnet_4, openai_gpt_4
 
 class ResearchAgent:
     """Agent specialized in research and information gathering."""
     
     def __init__(self, model=None):
-        self.model = sonnet_4
+        self.model = openai_gpt_4
         
         self.agent = Agent(
             name="Research Agent",

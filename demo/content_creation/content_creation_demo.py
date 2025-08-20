@@ -17,6 +17,9 @@ from dotenv import load_dotenv
 # Suppress httpx client cleanup warnings
 warnings.filterwarnings("ignore", message=".*SyncHttpxClientWrapper.*")
 
+# Add the project root to the Python path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
 from demo.content_creation.workflows.content_creation_workflow import ContentCreationWorkflow
 
 # Load environment variables

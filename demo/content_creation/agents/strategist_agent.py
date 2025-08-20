@@ -3,14 +3,14 @@
 from agno.agent import Agent
 from agno.models.anthropic import Claude
 from demo.content_creation.tools.content_tools import content_planner_tool, seo_optimizer_tool
-from demo.content_creation.models.ai_model import sonnet_4
+from demo.models.ai_model import sonnet_4, openai_gpt_4
 
 
 class ContentStrategistAgent:
     """Agent specialized in content strategy and planning."""
     
     def __init__(self, model=None):
-        self.model = sonnet_4
+        self.model = openai_gpt_4
         
         self.agent = Agent(
             name="Content Strategist",

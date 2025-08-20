@@ -3,13 +3,13 @@
 from agno.agent import Agent
 from agno.models.anthropic import Claude
 from demo.content_creation.tools.project_tools import task_manager_tool, progress_tracker_tool, communication_tool
-from demo.content_creation.models.ai_model import sonnet_4
+from demo.models.ai_model import sonnet_4, openai_gpt_4
 
 class ProjectManagerAgent:
     """Agent specialized in project coordination and workflow management."""
     
     def __init__(self, model=None):
-        self.model = sonnet_4
+        self.model = openai_gpt_4
         
         self.agent = Agent(
             name="Project Manager",

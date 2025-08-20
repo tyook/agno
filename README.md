@@ -27,4 +27,18 @@ pip install agno==1.7.6 python-dotenv
 ```bash
 cp .env.example .env
 # Edit .env and add your API keys
+Fill in your API keys in the .env file
+Export the env variables in your shell rc files, such as ~/.zshrc or ~/.bashrc
+export OPENAI_API_KEY=your_openai_api_key_here
+export OPENAI_DEFAULT_HEADER=your_openai_default_header_here
+
+Source your shell rc file to apply changes
+```bash
+source ~/.zshrc
 ```
+
+4. Run the demo:
+```bash
+python demo/structured_output/simple_demo.py
+```
+

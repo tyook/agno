@@ -3,7 +3,7 @@
 import json
 from typing import Dict, Any, Optional
 from agno.team import Team
-from demo.content_creation.models.ai_model import sonnet_4
+from demo.models.ai_model import sonnet_4
 
 from demo.content_creation.agents.research_agent import ResearchAgent
 from demo.content_creation.agents.strategist_agent import ContentStrategistAgent

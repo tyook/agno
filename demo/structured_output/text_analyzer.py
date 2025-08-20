@@ -4,22 +4,7 @@ from typing import List, Dict, Any
 from pydantic import BaseModel, Field
 from agno.agent import Agent
 from agno.models.anthropic import Claude
-from demo.structured_output.models.ai_model import sonnet_4
-
-
-class SentimentScore(BaseModel):
-    """Sentiment analysis score."""
-    positive: float = Field(..., description="Positive sentiment score (0-1)")
-    negative: float = Field(..., description="Negative sentiment score (0-1)")
-    neutral: float = Field(..., description="Neutral sentiment score (0-1)")
-    overall: str = Field(..., description="Overall sentiment: positive, negative, or neutral")
-
-
-class KeyTopic(BaseModel):
-    """Key topic identified in the text."""
-    topic: str = Field(..., description="The topic name")
-    relevance: float = Field(..., description="Relevance score (0-1)")
-    keywords: List[str] = Field(..., description="Keywords related to this topic")
+from demo.models.ai_model import sonnet_4, openai_gpt_4
 
 
 class TextAnalysis(BaseModel):
@@ -27,8 +12,18 @@ class TextAnalysis(BaseModel):
     word_count: int = Field(..., description="Total number of words")
     sentence_count: int = Field(..., description="Total number of sentences")
     reading_level: str = Field(..., description="Estimated reading level (elementary, middle, high school, college)")
-    sentiment: SentimentScore = Field(..., description="Sentiment analysis")
-    key_topics: List[KeyTopic] = Field(..., description="Key topics identified in the text")
+    
+    # Flattened sentiment fields
+    sentiment_positive: float = Field(..., description="Positive sentiment score (0-1)")
+    sentiment_negative: float = Field(..., description="Negative sentiment score (0-1)")
+    sentiment_neutral: float = Field(..., description="Neutral sentiment score (0-1)")
+    sentiment_overall: str = Field(..., description="Overall sentiment: positive, negative, or neutral")
+    
+    # Instead of nested key_topics, we'll use a simpler structure
+    topics: List[str] = Field(..., description="List of key topics identified in the text")
+    topic_relevance: List[float] = Field(..., description="Relevance scores for each topic (0-1)")
+    topic_keywords: List[List[str]] = Field(..., description="Keywords for each topic")
+    
     summary: str = Field(..., description="Brief summary of the text")
     main_points: List[str] = Field(..., description="Main points from the text")
 
@@ -38,7 +33,7 @@ class TextAnalyzerAgent:
     
     def __init__(self):
         """Initialize the text analyzer agent."""
-        self.model = sonnet_4
+        self.model = openai_gpt_4
         
         self.agent = Agent(
             name="Text Analyzer",
@@ -50,13 +45,20 @@ class TextAnalyzerAgent:
             For every text you analyze, provide:
             1. Basic statistics (word count, sentence count)
             2. Reading level assessment
-            3. Sentiment analysis with detailed scores
-            4. Key topics with relevance scores and keywords
+            3. Sentiment analysis with detailed scores (positive, negative, neutral scores from 0-1, and overall sentiment)
+            4. Key topics as a list, with separate lists for relevance scores and keywords for each topic
             5. A concise summary
             6. Main points extracted from the text
             
             Be accurate, thorough, and provide specific numerical scores where requested.
             Your analysis should be objective and data-driven.
+            
+            IMPORTANT: Format your response to match the TextAnalysis schema exactly:
+            - sentiment_positive, sentiment_negative, sentiment_neutral: Float values between 0-1
+            - sentiment_overall: String ("positive", "negative", or "neutral")
+            - topics: List of topic strings
+            - topic_relevance: List of float values (0-1) corresponding to each topic
+            - topic_keywords: List of lists, where each inner list contains keywords for a topic
             """,
             show_tool_calls=False,
             debug_mode=False,
@@ -134,21 +136,25 @@ def demo_text_analyzer():
             
             # Display results
             print(f"\n📊 ANALYSIS RESULTS:")
+
             
             print(f"Word Count: {analysis.content.word_count}")
             print(f"Sentence Count: {analysis.content.sentence_count}")
             print(f"Reading Level: {analysis.content.reading_level}")
             
             print(f"\n💭 SENTIMENT:")
-            print(f"  Overall: {analysis.content.sentiment.overall}")
-            print(f"  Positive: {analysis.content.sentiment.positive:.2f}")
-            print(f"  Negative: {analysis.content.sentiment.negative:.2f}")
-            print(f"  Neutral: {analysis.content.sentiment.neutral:.2f}")
+            print(f"  Overall: {analysis.content.sentiment_overall}")
+            print(f"  Positive: {analysis.content.sentiment_positive:.2f}")
+            print(f"  Negative: {analysis.content.sentiment_negative:.2f}")
+            print(f"  Neutral: {analysis.content.sentiment_neutral:.2f}")
             
             print(f"\n🎯 KEY TOPICS:")
-            for topic in analysis.content.key_topics:
-                print(f"  • {topic.topic} (relevance: {topic.relevance:.2f})")
-                print(f"    Keywords: {', '.join(topic.keywords)}")
+            for i, topic in enumerate(analysis.content.topics):
+                # Access relevance and keywords using the same index
+                relevance = analysis.content.topic_relevance[i]
+                keywords = analysis.content.topic_keywords[i]
+                print(f"  • {topic} (relevance: {relevance:.2f})")
+                print(f"    Keywords: {', '.join(keywords)}")
             
             print(f"\n📝 SUMMARY:")
             print(f"  {analysis.content.summary}")

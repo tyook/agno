@@ -15,7 +15,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(
 
 from agno.team import Team
 from agno.agent import Agent
-from demo.team_api_demo.models.ai_model import sonnet_4
+from demo.models.ai_model import sonnet_4, openai_gpt_4
 
 # Load environment variables
 load_dotenv()
@@ -38,28 +38,28 @@ def create_simple_team_demo():
         name="Researcher",
         role="Research Specialist",
         instructions="You are a research specialist. Focus on gathering facts, data, and insights on any given topic.",
-        model=sonnet_4
+        model=openai_gpt_4
     )
     
     analyst = Agent(
         name="Analyst", 
         role="Data Analyst",
         instructions="You are a data analyst. Focus on analyzing information, identifying patterns, and drawing conclusions.",
-        model=sonnet_4
+        model=openai_gpt_4
     )
     
     writer = Agent(
         name="Writer",
         role="Content Writer", 
         instructions="You are a content writer. Focus on creating clear, engaging, and well-structured content.",
-        model=sonnet_4
+        model=openai_gpt_4
     )
     
     # Create a team with these agents
     team = Team(
         members=[researcher, analyst, writer],
         show_tool_calls=True,
-        model=sonnet_4
+        model=openai_gpt_4
     )
     
     return team

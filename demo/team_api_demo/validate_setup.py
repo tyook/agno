@@ -12,7 +12,7 @@ def validate_imports():
     try:
         from agno.team import Team
         from agno.agent import Agent
-        from demo.team_api_demo.models.ai_model import sonnet_4
+        from demo.models.ai_model import sonnet_4
         print("✅ All imports successful")
         return True
     except ImportError as e:
@@ -22,7 +22,7 @@ def validate_imports():
 def validate_model_config():
     """Test that the model configuration is accessible."""
     try:
-        from demo.team_api_demo.models.ai_model import sonnet_4
+        from demo.models.ai_model import sonnet_4
         print(f"✅ Model configuration loaded: {sonnet_4.id}")
         return True
     except Exception as e:
