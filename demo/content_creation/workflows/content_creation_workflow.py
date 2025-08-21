@@ -1,8 +1,9 @@
-"""Content Creation Workflow orchestrating multiple agents."""
+"""Content Creation Workflow orchestrating multiple agents using agno.workflow.v2."""
 
 import json
 from typing import Dict, Any, Optional
 from agno.team import Team
+from agno.workflow.v2 import Step, Workflow, StepOutput, StepInput, Loop, Condition
 from demo.models.ai_model import sonnet_4
 
 from demo.content_creation.agents.research_agent import ResearchAgent
@@ -38,13 +39,70 @@ class ContentCreationWorkflow:
             model=self.model
         )
     
+    def _create_content_workflow(self, topic: str, content_type: str, target_audience: str, deadline: Optional[str]) -> Workflow:
+        """Create the content creation workflow using agno.workflow.v2."""
+        return Workflow(
+            name="Content Creation Workflow",
+            description="Complete content creation process from research to publication",
+            steps=[
+                Step(
+                    name="project_initialization",
+                    agent=self.project_manager.agent,
+                    max_retries=2,
+                    description="🚀 Project Initialization"
+                ),
+                Step(
+                    name="research",
+                    agent=self.research_agent.agent,
+                    max_retries=2,
+                    description="🔍 Research Phase"
+                ),
+                Step(
+                    name="strategy",
+                    agent=self.strategist_agent.agent,
+                    max_retries=2,
+                    description="📋 Content Strategy Development"
+                ),
+                Step(
+                    name="requirements",
+                    agent=self.strategist_agent.agent,
+                    max_retries=2,
+                    description="📝 Content Requirements Definition"
+                ),
+                Step(
+                    name="writing",
+                    agent=self.writer_agent.agent,
+                    max_retries=3,
+                    description="✍️ Content Writing"
+                ),
+                Step(
+                    name="editorial_review",
+                    agent=self.editor_agent.agent,
+                    max_retries=2,
+                    description="📖 Editorial Review"
+                ),
+                Step(
+                    name="quality_check",
+                    agent=self.editor_agent.agent,
+                    max_retries=2,
+                    description="🔍 Final Quality Check"
+                ),
+                Step(
+                    name="project_completion",
+                    agent=self.project_manager.agent,
+                    max_retries=1,
+                    description="🎉 Project Completion"
+                )
+            ]
+        )
+    
     def run_complete_workflow(self, 
                             topic: str, 
                             content_type: str = "blog_post",
                             target_audience: str = "general",
                             deadline: Optional[str] = None) -> Dict[str, Any]:
         """
-        Run the complete content creation workflow.
+        Run the complete content creation workflow using agno.workflow.v2.
         
         Args:
             topic: The main topic for content creation
@@ -56,109 +114,89 @@ class ContentCreationWorkflow:
             Dict containing all workflow outputs and final deliverables
         """
         
-        workflow_results = {
-            "project_info": {
-                "topic": topic,
-                "content_type": content_type,
-                "target_audience": target_audience,
-                "deadline": deadline
-            },
-            "workflow_outputs": {},
-            "final_deliverables": {}
+        workflow_input = {
+            "topic": topic,
+            "content_type": content_type,
+            "target_audience": target_audience,
+            "deadline": deadline
         }
         
         try:
-            # Step 1: Project Initialization
-            print("🚀 Step 1: Project Initialization")
-            project_init = self.project_manager.initiate_project(
-                project_name=f"Content Creation: {topic}",
-                client_requirements=f"Create {content_type} about {topic} for {target_audience}",
-                deadline=deadline
+            print(f"🚀 Starting Content Creation Workflow for: {topic}")
+            print(f"   Content Type: {content_type}")
+            print(f"   Target Audience: {target_audience}")
+            print(f"   Deadline: {deadline or 'Not specified'}")
+            print()
+            
+            # Create and run the workflow
+            workflow = self._create_content_workflow(topic, content_type, target_audience, deadline)
+            
+            # Create comprehensive instructions for the entire workflow
+            workflow_message = f"""
+            Complete content creation workflow for: {topic}
+            
+            Content Type: {content_type}
+            Target Audience: {target_audience}
+            Deadline: {deadline or 'Not specified'}
+            
+            Execute all 8 phases sequentially:
+            1. Project initialization and planning
+            2. Comprehensive research on {topic}
+            3. Content strategy development for {target_audience}
+            4. Content requirements definition
+            5. Content writing based on research and strategy
+            6. Editorial review with SEO optimization
+            7. Final quality check against requirements
+            8. Project completion and deliverables
+            """
+            
+            result = workflow.run(
+                message=workflow_message.strip(),
+                additional_data=workflow_input
             )
-            workflow_results["workflow_outputs"]["project_initialization"] = project_init
-            print("✅ Project initialized successfully")
             
-            # Step 2: Research Phase
-            print("\\n🔍 Step 2: Research Phase")
-            research_results = self.research_agent.research_topic(topic, depth="comprehensive")
-            workflow_results["workflow_outputs"]["research"] = research_results
-            print("✅ Research completed")
-            
-            # Step 3: Content Strategy Development
-            print("\\n📋 Step 3: Content Strategy Development")
-            content_strategy = self.strategist_agent.create_content_strategy(
-                topic=topic,
-                research_insights=research_results,
-                target_audience=target_audience
-            )
-            workflow_results["workflow_outputs"]["strategy"] = content_strategy
-            print("✅ Content strategy developed")
-            
-            # Step 4: Content Requirements Definition
-            print("\\n📝 Step 4: Content Requirements Definition")
-            content_requirements = self.strategist_agent.define_content_requirements(content_strategy)
-            workflow_results["workflow_outputs"]["requirements"] = content_requirements
-            print("✅ Content requirements defined")
-            
-            # Step 5: Content Writing
-            print("\\n✍️ Step 5: Content Writing")
-            initial_draft = self.writer_agent.write_content(
-                outline=content_strategy,
-                requirements=content_requirements,
-                research_data=research_results
-            )
-            workflow_results["workflow_outputs"]["initial_draft"] = initial_draft
-            print("✅ Initial draft completed")
-            
-            # Step 6: Editorial Review
-            print("\\n📖 Step 6: Editorial Review")
-            editorial_review = self.editor_agent.comprehensive_review(
-                content=initial_draft,
-                requirements=content_requirements,
-                seo_keywords=[topic.lower(), f"{topic} guide", f"{topic} benefits"]
-            )
-            workflow_results["workflow_outputs"]["editorial_review"] = editorial_review
-            print("✅ Editorial review completed")
-            
-            # Step 7: Final Quality Check
-            print("\\n🔍 Step 7: Final Quality Check")
-            final_quality_check = self.editor_agent.final_quality_check(
-                content=initial_draft,
-                original_requirements=content_requirements
-            )
-            workflow_results["workflow_outputs"]["quality_check"] = final_quality_check
-            print("✅ Quality check completed")
-            
-            # Step 8: Project Completion
-            print("\\n🎉 Step 8: Project Completion")
-            project_completion = self.project_manager.handle_project_completion(
-                project_id="PROJ-001",
-                final_deliverables=[
-                    f"Final {content_type} about {topic}",
-                    "Research report and insights",
-                    "Content strategy document",
-                    "Editorial review and recommendations"
-                ]
-            )
-            workflow_results["workflow_outputs"]["project_completion"] = project_completion
-            print("✅ Project completed successfully")
-            
-            # Compile final deliverables
-            workflow_results["final_deliverables"] = {
-                "final_content": initial_draft,
-                "research_report": research_results,
-                "content_strategy": content_strategy,
-                "editorial_feedback": editorial_review,
-                "quality_assessment": final_quality_check,
-                "project_summary": project_completion
-            }
-            
-            return workflow_results
-            
+            if result and result.session_id:
+                print("✅ Workflow completed successfully!")
+                
+                # Extract outputs from step responses
+                step_outputs = {}
+                for step_result in result.step_responses:
+                    if hasattr(step_result, 'step_name') and step_result.content:
+                        step_outputs[step_result.step_name] = step_result.content
+                
+                # Compile workflow results
+                workflow_results = {
+                    "project_info": workflow_input,
+                    "workflow_outputs": step_outputs,
+                    "final_deliverables": {
+                        "final_content": step_outputs.get("writing"),
+                        "research_report": step_outputs.get("research"),
+                        "content_strategy": step_outputs.get("strategy"),
+                        "content_requirements": step_outputs.get("requirements"),
+                        "editorial_feedback": step_outputs.get("editorial_review"),
+                        "quality_assessment": step_outputs.get("quality_check"),
+                        "project_summary": step_outputs.get("project_completion")
+                    },
+                    "session_id": result.session_id,
+                    "status": "success"
+                }
+                
+                return workflow_results
+            else:
+                print("❌ Workflow execution failed")
+                return {
+                    "project_info": workflow_input,
+                    "error": "Workflow execution failed - no result returned",
+                    "status": "error"
+                }
+                
         except Exception as e:
             print(f"❌ Workflow error: {str(e)}")
-            workflow_results["error"] = str(e)
-            return workflow_results
+            return {
+                "project_info": workflow_input,
+                "error": str(e),
+                "status": "error"
+            }
     
     def run_collaborative_session(self, topic: str, specific_challenge: str) -> str:
         """
@@ -193,20 +231,24 @@ class ContentCreationWorkflow:
     def generate_workflow_report(self, workflow_results: Dict[str, Any]) -> str:
         """Generate a comprehensive workflow report."""
         
-        if "error" in workflow_results:
-            return f"Workflow encountered an error: {workflow_results['error']}"
+        if workflow_results.get("status") == "error":
+            return f"Workflow encountered an error: {workflow_results.get('error', 'Unknown error')}"
+        
+        project_info = workflow_results.get('project_info', {})
+        session_id = workflow_results.get('session_id', 'N/A')
         
         report = f"""
 # Content Creation Workflow Report
 
 ## Project Information
-- **Topic**: {workflow_results['project_info']['topic']}
-- **Content Type**: {workflow_results['project_info']['content_type']}
-- **Target Audience**: {workflow_results['project_info']['target_audience']}
-- **Deadline**: {workflow_results['project_info'].get('deadline', 'Not specified')}
+- **Topic**: {project_info.get('topic', 'N/A')}
+- **Content Type**: {project_info.get('content_type', 'N/A')}
+- **Target Audience**: {project_info.get('target_audience', 'N/A')}
+- **Deadline**: {project_info.get('deadline', 'Not specified')}
+- **Session ID**: {session_id}
 
 ## Workflow Summary
-The content creation workflow was completed successfully with all phases executed:
+The content creation workflow was completed successfully using agno.workflow.v2 with all phases executed:
 
 1. ✅ **Project Initialization** - Project setup and planning
 2. ✅ **Research Phase** - Comprehensive topic research and analysis  
@@ -217,10 +259,18 @@ The content creation workflow was completed successfully with all phases execute
 7. ✅ **Quality Check** - Final quality assurance
 8. ✅ **Project Completion** - Final delivery and wrap-up
 
+## Workflow Features
+- **Built-in Retry Logic**: Each step has configured retry attempts for reliability
+- **Error Handling**: Workflow-level exception management and recovery
+- **Session Tracking**: Complete audit trail with session ID {session_id}
+- **Data Flow**: Automatic step output passing and context preservation
+- **Performance Monitoring**: Built-in metrics and progress tracking
+
 ## Final Deliverables
 - Final content piece ready for publication
 - Comprehensive research report with insights
 - Detailed content strategy document
+- Content requirements specification
 - Editorial review with improvement recommendations
 - Quality assessment and compliance verification
 - Complete project documentation

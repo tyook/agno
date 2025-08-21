@@ -64,6 +64,7 @@ class TextAnalyzerAgent:
             debug_mode=False,
             response_model=TextAnalysis
         )
+
     
     def analyze_text(self, text: str) -> TextAnalysis:
         """
