@@ -24,7 +24,7 @@ from demo.text_analyzer.text_analyzer import TextAnalyzerAgent, demo_text_analyz
 from demo.text_analyzer.text_analyzer_structured import demo_text_analyzer_structured
 from demo.text_analyzer.text_analyzer_tool import demo_text_analyzer_with_tool
 from demo.text_analyzer.text_analyzer_team import demo_review_reply_with_team
-from demo.text_analyzer.agent import HelloWorldAgent
+from demo.text_analyzer.hello_world import hello_world
 
 
 # Load environment variables
@@ -40,7 +40,6 @@ def check_api_key():
         print("   Or export it as an environment variable.")
         return False
     return True
-
 
 def main():
     """Main demo function."""
@@ -71,7 +70,7 @@ def main():
     
     if choice in ['0']:
         print("\n🏃 Running predefined examples...")
-        demo_helloworld()
+        hello_world()
     if choice in ['1']:
         print("\n🏃 Running text analyzer basic...")
         demo_text_analyzer()
