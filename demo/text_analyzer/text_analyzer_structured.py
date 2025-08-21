@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field
 from agno.agent import Agent
 from agno.models.anthropic import Claude
 from demo.models.ai_model import sonnet_4, openai_gpt_4
-
+from demo.text_analyzer.reviews import REVIEWS
 
 class TextAnalysis(BaseModel):
     """Complete text analysis results."""
@@ -98,30 +98,7 @@ def demo_text_analyzer_structured():
     """Demonstrate the text analyzer with sample text."""
     analyzer = TextAnalyzerAgent()
     
-    sample_texts = [
-        {
-            "title": "Product Review",
-            "text": """
-            I recently purchased this laptop and I'm extremely disappointed with the performance. 
-            The battery life is terrible, lasting only 2 hours on a full charge. The screen quality 
-            is subpar and the keyboard feels cheap. However, the design is sleek and it's lightweight. 
-            Customer service was unhelpful when I contacted them about these issues. 
-            I would not recommend this product to anyone looking for a reliable laptop.
-            """
-        },
-        {
-            "title": "Scientific Article Excerpt",
-            "text": """
-            Climate change represents one of the most significant challenges facing humanity in the 21st century. 
-            Rising global temperatures, caused primarily by increased greenhouse gas emissions from human activities, 
-            are leading to widespread environmental changes. These include melting polar ice caps, rising sea levels, 
-            more frequent extreme weather events, and shifts in precipitation patterns. The Intergovernmental Panel 
-            on Climate Change has documented these trends extensively, providing scientific evidence for the urgent 
-            need for mitigation and adaptation strategies. Renewable energy technologies, carbon capture systems, 
-            and sustainable development practices are essential components of the global response to this crisis.
-            """
-        }
-    ]
+    sample_texts = REVIEWS
     
     print("🔍 TEXT ANALYZER DEMO - Structured Output Example")
     print("=" * 60)
