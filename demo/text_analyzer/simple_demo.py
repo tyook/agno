@@ -20,8 +20,8 @@ warnings.filterwarnings("ignore", message=".*SyncHttpxClientWrapper.*")
 # Add the project root to the Python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-# from demo.text_analyzer.text_analyzer import TextAnalyzerAgent, demo_text_analyzer
-# from demo.text_analyzer.agent import HelloWorldAgent
+
+from demo.text_analyzer.hello_world import hello_world
 
 # Load environment variables
 load_dotenv()
@@ -37,66 +37,6 @@ def check_api_key():
         return False
     return True
 
-def demo_helloworld():
-    """Run an hello world demo where users can input their own text."""
-    print("\n🎮 HELLO MODE")
-    print("=" * 40)
-    print("Enter your greeting:")
-    
-    # agent = TextAnalyzerAgent()
-    # agent = HelloWorldAgent()
-    
-    while True:
-        print("\n📝 Enter text to analyze:")
-        user_text = input("> ")
-        
-        if user_text.lower() in ['quit', 'exit', 'q']:
-            print("👋 Goodbye!")
-            break
-            
-        if len(user_text.strip()) < 10:
-            print("⚠️  Please enter at least 10 characters of text.")
-            continue
-        
-        try:
-            print("\n🔄 Analyzing...")
-            # analysis = agent.analyze_text(user_text)
-            # response = agent.agent.run(prompt=user_text)
-
-            # print(f"response: {response}")
-            
-            # # Save to file
-            # timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            # output_file = f"text_analysis_{timestamp}.json"
-            
-            # with open(output_file, 'w') as f:
-            #     json.dump(analysis.model_dump(), f, indent=2, default=str)
-            
-            # print(f"\n✅ Analysis complete! Results saved to: {output_file}")
-            # print(f"\n📊 Quick Summary:")
-            # print(f"  • Words: {analysis.word_count}")
-            # print(f"  • Sentiment: {analysis.sentiment.overall}")
-            # print(f"  • Topics: {len(analysis.key_topics)}")
-            # print(f"  • Reading Level: {analysis.reading_level}")
-            
-            # # Ask if user wants to see full details
-            # show_details = input("\n🔍 Show detailed analysis? (y/n): ").lower().startswith('y')
-            # if show_details:
-            #     print(f"\n💭 SENTIMENT BREAKDOWN:")
-            #     print(f"  Positive: {analysis.sentiment.positive:.2f}")
-            #     print(f"  Negative: {analysis.sentiment.negative:.2f}")
-            #     print(f"  Neutral: {analysis.sentiment.neutral:.2f}")
-                
-            #     print(f"\n🎯 KEY TOPICS:")
-            #     for topic in analysis.key_topics:
-            #         print(f"  • {topic.topic} (relevance: {topic.relevance:.2f})")
-                
-            #     print(f"\n📝 SUMMARY:")
-            #     print(f"  {analysis.summary}")
-                
-        except Exception as e:
-            print(f"❌ Analysis failed: {e}")
-
 
 def main():
     """Main demo function."""
@@ -111,14 +51,14 @@ def main():
     
     print("Choose a demo mode:")
     print("0. Hello World")
-    print("1. Run predefined examples")
+    
     
     
     choice = input("\nEnter your choice (1-3): ").strip()
     
     if choice in ['0']:
         print("\n🏃 Running predefined examples...")
-        demo_helloworld()
+        hello_world()
     if choice in ['1']:
         print("\n🏃 Running predefined examples...")
         # demo_text_analyzer()
