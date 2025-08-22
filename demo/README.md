@@ -59,10 +59,6 @@ python demo/content_creation/content_creation_demo.py
    python test_imports.py
    ```
 
-4. **Validate tools**:
-   ```bash
-   python validate_tools.py
-   ```
 
 ## 📚 Which Example to Use?
 

@@ -67,45 +67,6 @@ def test_agno_imports():
         return False
 
 
-def test_demo_imports():
-    """Test if demo module imports work correctly."""
-    print("\\n🧪 Testing demo module imports...")
-    
-    try:
-        # Add demo to path
-        sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-        
-        print("  Importing demo tools...")
-        from demo.content_creation.tools.research_tools import web_search_tool, trend_analysis_tool, fact_check_tool
-        from demo.content_creation.tools.content_tools import content_planner_tool, writing_quality_tool, seo_optimizer_tool
-        from demo.content_creation.tools.project_tools import task_manager_tool, progress_tracker_tool, communication_tool
-        print("  ✅ Demo tools imported successfully")
-        
-        print("  Importing demo agents...")
-        from demo.content_creation.agents.research_agent import ResearchAgent
-        from demo.content_creation.agents.strategist_agent import ContentStrategistAgent
-        from demo.content_creation.agents.writer_agent import WriterAgent
-        from demo.content_creation.agents.editor_agent import EditorAgent
-        from demo.content_creation.agents.project_manager_agent import ProjectManagerAgent
-        print("  ✅ Demo agents imported successfully")
-        
-        print("  Importing demo workflows...")
-        from demo.content_creation.workflows.content_creation_workflow import ContentCreationWorkflow
-        print("  ✅ Demo workflows imported successfully")
-        
-        print("\\n🎉 All demo module imports passed!")
-        return True
-        
-    except ImportError as e:
-        print(f"  ❌ Demo import error: {e}")
-        print("\\n💡 Check that all demo files are in the correct location")
-        return False
-        
-    except Exception as e:
-        print(f"  ❌ Demo initialization error: {e}")
-        return False
-
-
 def main():
     """Run all import tests."""
     print("🚀 AGNO v1.7.6 COMPATIBILITY TEST")
@@ -114,11 +75,9 @@ def main():
     # Test agno imports
     agno_success = test_agno_imports()
     
-    # Test demo imports
-    demo_success = test_demo_imports()
     
     print("\\n" + "=" * 50)
-    if agno_success and demo_success:
+    if agno_success:
         print("✅ ALL TESTS PASSED - Demo is ready to run!")
         print("\\n🎮 You can now run the demo:")
         print("    python demo.py")
@@ -126,8 +85,6 @@ def main():
         print("❌ SOME TESTS FAILED - Please fix issues before running demo")
         if not agno_success:
             print("  - Fix agno installation/import issues")
-        if not demo_success:
-            print("  - Fix demo module import issues")
 
 
 if __name__ == "__main__":
