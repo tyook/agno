@@ -85,8 +85,6 @@ def demo_text_analyzer_with_tool():
 
     response = analyzer.agent.run()
 
-    import pdb
-    pdb.set_trace()
     
     for i, sample in enumerate(response.content.reviews, 1):
 

@@ -228,8 +228,7 @@ def demo_text_analyzer_with_workflow():
                 print(f"  Analysis data type: {type(analysis)}")
 
         
-        import pdb
-        pdb.set_trace()
+        
         # Display sample responses if available
         if result.get('generated_responses'):
             print(f"\n💬 RESPONSE RESULTS:")

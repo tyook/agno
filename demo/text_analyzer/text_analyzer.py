@@ -62,8 +62,6 @@ class TextAnalyzerAgent:
         response = self.agent.print_response(
             prompt,
         )
-        import pdb
-        pdb.set_trace()
         
         return response.content
 
