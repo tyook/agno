@@ -18,9 +18,7 @@ cd agno
 
 2. Install dependencies:
 ```bash
-pip install -r requirements.txt
-# Or install agno directly with the specific version
-pip install agno==1.7.6 python-dotenv
+pip install -e .
 ```
 
 3. Set up environment variables:
@@ -39,6 +37,6 @@ source ~/.zshrc
 
 4. Run the demo:
 ```bash
-python demo/structured_output/simple_demo.py
+python demo/text_analyzer/simple_demo.py
 ```
 
