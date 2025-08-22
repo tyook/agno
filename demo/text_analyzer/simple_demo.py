@@ -54,14 +54,13 @@ def main():
     
     
     
-    choice = input("\nEnter your choice (1-3): ").strip()
+    choice = input("\nEnter your choice: ").strip()
     
     if choice in ['0']:
-        print("\n🏃 Running predefined examples...")
+        print("\n🏃 Running hello world...")
         hello_world()
-    if choice in ['1']:
-        print("\n🏃 Running predefined examples...")
-        # demo_text_analyzer()
+
+
     
     
     print("\n🎉 Demo completed!")
