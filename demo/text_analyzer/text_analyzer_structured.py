@@ -87,7 +87,7 @@ class TextAnalyzerAgent:
         """
         
         # Use the agent to generate structured output
-        response = self.agent.run(
+        response = self.agent.print_response(
             prompt,
         )
         

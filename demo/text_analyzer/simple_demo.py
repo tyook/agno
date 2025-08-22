@@ -25,6 +25,7 @@ from demo.text_analyzer.text_analyzer_structured import demo_text_analyzer_struc
 from demo.text_analyzer.text_analyzer_tool import demo_text_analyzer_with_tool
 from demo.text_analyzer.text_analyzer_team import demo_review_reply_with_team
 from demo.text_analyzer.hello_world import hello_world
+from demo.text_analyzer.text_analyzer_workflow import demo_text_analyzer_with_workflow
 
 
 # Load environment variables
@@ -65,8 +66,9 @@ def main():
     print("2. text analyzer with structured output")
     print("3. text analyzer with tools")
     print("4. text analyzer with reviews")
+    print("5. text analyzer with workflows")
     
-    choice = input("\nEnter your choice (0-4): ").strip()
+    choice = input("\nEnter your choice (0-5): ").strip()
     
     if choice in ['0']:
         print("\n🏃 Running predefined examples...")
@@ -83,6 +85,9 @@ def main():
     if choice in ['4']:
         print("\n🏃 text analyzer with reviews...")
         demo_review_reply_with_team()
+    if choice in ['5']:
+        print("\n🏃 text analyzer with workflows...")
+        demo_text_analyzer_with_workflow()
            
 
     print("\n🎉 Demo completed!")

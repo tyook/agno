@@ -96,7 +96,7 @@ class TextAnalyzerWithTeam:
             """,
             show_tool_calls=False,
             debug_mode=False,
-            response_model=ReviewList,
+            response_model=ReplyList,
         )
 
     
