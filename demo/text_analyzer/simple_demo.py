@@ -20,6 +20,14 @@ warnings.filterwarnings("ignore", message=".*SyncHttpxClientWrapper.*")
 
 from demo.text_analyzer.hello_world import hello_world
 
+from demo.text_analyzer.text_analyzer import TextAnalyzerAgent, demo_text_analyzer
+from demo.text_analyzer.text_analyzer_structured import demo_text_analyzer_structured
+from demo.text_analyzer.text_analyzer_tool import demo_text_analyzer_with_tool
+from demo.text_analyzer.text_analyzer_team import demo_review_reply_with_team
+from demo.text_analyzer.hello_world import hello_world
+from demo.text_analyzer.text_analyzer_workflow import demo_text_analyzer_with_workflow
+
+
 # Load environment variables
 load_dotenv()
 
@@ -34,7 +42,6 @@ def check_api_key():
         return False
     return True
 
-
 def main():
     """Main demo function."""
     print("🚀 AGNO SIMPLE STRUCTURED OUTPUT DEMO")
@@ -48,18 +55,41 @@ def main():
     
     print("Choose a demo mode:")
     print("0. Hello World")
-    
-    
-    
+
     choice = input("\nEnter your choice: ").strip()
     
     if choice in ['0']:
         print("\n🏃 Running hello world...")
         hello_world()
 
+    print("1. text analyzer basic")
+    print("2. text analyzer with structured output")
+    print("3. text analyzer with tools")
+    print("4. text analyzer with reviews")
+    print("5. text analyzer with workflows")
+    
+    choice = input("\nEnter your choice (0-5): ").strip()
+    
+    if choice in ['0']:
+        print("\n🏃 Running predefined examples...")
+        hello_world()
+    if choice in ['1']:
+        print("\n🏃 Running text analyzer basic...")
+        demo_text_analyzer()
+    if choice in ['2']:
+        print("\n🏃 text analyzer with structured output...")
+        demo_text_analyzer_structured()
+    if choice in ['3']:
+        print("\n🏃 text analyzer with tools...")
+        demo_text_analyzer_with_tool()
+    if choice in ['4']:
+        print("\n🏃 text analyzer with reviews...")
+        demo_review_reply_with_team()
+    if choice in ['5']:
+        print("\n🏃 text analyzer with workflows...")
+        demo_text_analyzer_with_workflow()
+           
 
-    
-    
     print("\n🎉 Demo completed!")
     print("\n💡 Key takeaways from this demo:")
     print("  • Single agent with structured output using Pydantic models")
